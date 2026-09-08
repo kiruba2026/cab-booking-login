@@ -12,7 +12,16 @@ class CabApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Cab Booking',
-      home: const LoginPage(),
+
+      // Starting page
+      initialRoute: '/login',
+
+      // Named routes
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/signup': (context) => const SignupPage(),
+        '/forgot-password': (context) => const ForgotPasswordPage(),
+      },
     );
   }
 }
@@ -34,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
 
   bool showPassword = false;
 
+  // Login function
   void login() {
     String login = loginController.text;
     String password = passwordController.text;
@@ -45,12 +55,10 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  // Show message
   void showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -74,30 +82,22 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-
-                const Icon(
-                  Icons.local_taxi,
-                  size: 70,
-                  color: Colors.amber,
-                ),
+                // Cab icon
+                const Icon(Icons.local_taxi, size: 70, color: Colors.amber),
 
                 const SizedBox(height: 15),
 
+                // Title
                 const Text(
                   'Cab Booking',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
 
                 const SizedBox(height: 8),
 
                 const Text(
                   'Login to book your ride',
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
+                  style: TextStyle(color: Colors.grey),
                 ),
 
                 const SizedBox(height: 25),
@@ -105,6 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                 // Phone or Email
                 TextField(
                   controller: loginController,
+
                   decoration: const InputDecoration(
                     labelText: 'Phone Number or Email',
                     prefixIcon: Icon(Icons.person),
@@ -117,6 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                 // Password
                 TextField(
                   controller: passwordController,
+
                   obscureText: !showPassword,
 
                   decoration: InputDecoration(
@@ -125,9 +127,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     suffixIcon: IconButton(
                       icon: Icon(
-                        showPassword
-                            ? Icons.visibility
-                            : Icons.visibility_off,
+                        showPassword ? Icons.visibility : Icons.visibility_off,
                       ),
 
                       onPressed: () {
@@ -149,25 +149,16 @@ class _LoginPageState extends State<LoginPage> {
 
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const ForgotPasswordPage();
-                          },
-                        ),
-                      );
+                      Navigator.pushNamed(context, '/forgot-password');
                     },
 
-                    child: const Text(
-                      'Forgot Password?',
-                    ),
+                    child: const Text('Forgot Password?'),
                   ),
                 ),
 
                 const SizedBox(height: 10),
 
-                // Login
+                // Login button
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -175,12 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton(
                     onPressed: login,
 
-                    child: const Text(
-                      'LOGIN',
-                      style: TextStyle(
-                        fontSize: 17,
-                      ),
-                    ),
+                    child: const Text('LOGIN', style: TextStyle(fontSize: 17)),
                   ),
                 ),
 
@@ -191,25 +177,14 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
 
                   children: [
-                    const Text(
-                      "Don't have an account?",
-                    ),
+                    const Text("Don't have an account?"),
 
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const SignupPage();
-                            },
-                          ),
-                        );
+                        Navigator.pushNamed(context, '/signup');
                       },
 
-                      child: const Text(
-                        'Sign Up',
-                      ),
+                      child: const Text('Sign Up'),
                     ),
                   ],
                 ),
@@ -225,6 +200,7 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     loginController.dispose();
     passwordController.dispose();
+
     super.dispose();
   }
 }
@@ -248,28 +224,24 @@ class _SignupPageState extends State<SignupPage> {
 
   bool showPassword = false;
 
+  // Create account
   void createAccount() {
     String name = nameController.text;
     String phone = phoneController.text;
     String email = emailController.text;
     String password = passwordController.text;
 
-    if (name.isEmpty ||
-        phone.isEmpty ||
-        email.isEmpty ||
-        password.isEmpty) {
+    if (name.isEmpty || phone.isEmpty || email.isEmpty || password.isEmpty) {
       showMessage('Please fill all details');
     } else {
       showMessage('Account created successfully');
     }
   }
 
+  // Show message
   void showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -277,9 +249,7 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
 
-      appBar: AppBar(
-        title: const Text('Create Account'),
-      ),
+      appBar: AppBar(title: const Text('Create Account')),
 
       body: Center(
         child: SingleChildScrollView(
@@ -297,26 +267,20 @@ class _SignupPageState extends State<SignupPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-
-                const Icon(
-                  Icons.person_add,
-                  size: 70,
-                  color: Colors.amber,
-                ),
+                // Icon
+                const Icon(Icons.person_add, size: 70, color: Colors.amber),
 
                 const SizedBox(height: 15),
 
+                // Title
                 const Text(
                   'Create Account',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
 
                 const SizedBox(height: 25),
 
-                // Full Name
+                // Name
                 TextField(
                   controller: nameController,
 
@@ -371,9 +335,7 @@ class _SignupPageState extends State<SignupPage> {
 
                     suffixIcon: IconButton(
                       icon: Icon(
-                        showPassword
-                            ? Icons.visibility
-                            : Icons.visibility_off,
+                        showPassword ? Icons.visibility : Icons.visibility_off,
                       ),
 
                       onPressed: () {
@@ -389,7 +351,7 @@ class _SignupPageState extends State<SignupPage> {
 
                 const SizedBox(height: 25),
 
-                // Create Account
+                // Create Account button
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -399,9 +361,7 @@ class _SignupPageState extends State<SignupPage> {
 
                     child: const Text(
                       'CREATE ACCOUNT',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
@@ -438,6 +398,7 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final accountController = TextEditingController();
 
+  // Reset password
   void resetPassword() {
     String account = accountController.text;
 
@@ -448,12 +409,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     }
   }
 
+  // Show message
   void showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -461,9 +420,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
 
-      appBar: AppBar(
-        title: const Text('Forgot Password'),
-      ),
+      appBar: AppBar(title: const Text('Forgot Password')),
 
       body: Center(
         child: SingleChildScrollView(
@@ -481,21 +438,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-
-                const Icon(
-                  Icons.lock_reset,
-                  size: 70,
-                  color: Colors.amber,
-                ),
+                // Icon
+                const Icon(Icons.lock_reset, size: 70, color: Colors.amber),
 
                 const SizedBox(height: 15),
 
+                // Title
                 const Text(
                   'Forgot Password?',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
 
                 const SizedBox(height: 10),
@@ -504,13 +455,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   'Enter your phone number or email',
                   textAlign: TextAlign.center,
 
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
+                  style: TextStyle(color: Colors.grey),
                 ),
 
                 const SizedBox(height: 25),
 
+                // Phone or Email
                 TextField(
                   controller: accountController,
 
@@ -523,6 +473,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                 const SizedBox(height: 25),
 
+                // Reset button
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -532,9 +483,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                     child: const Text(
                       'RESET PASSWORD',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
@@ -549,6 +498,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   void dispose() {
     accountController.dispose();
+
     super.dispose();
   }
 }
